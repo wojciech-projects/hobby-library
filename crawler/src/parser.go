@@ -1,16 +1,50 @@
 package main
 
 import (
+	"errors"
+	"fmt"
 	"io"
 	"log"
+	"regexp"
+	"strconv"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
-func parse(reader io.Reader) (length int) {
+type Title struct {
+	title       string
+	volumeCount int
+}
+
+func parseTitle(title string) (parsedTitle Title, err error) {
+	regex := *regexp.MustCompile(`(.+) \((\d+) book series\).*`)
+	results := regex.FindStringSubmatch(title)
+	if len(results) < 3 {
+		return parsedTitle, errors.New("title parse error")
+	}
+
+	parsedTitle.title = results[1]
+	parsedTitle.volumeCount, err = strconv.Atoi(results[2])
+
+	if err != nil {
+		return parsedTitle, errors.New("title parse error")
+	}
+	return
+}
+
+func parse(reader io.Reader) Title {
 	doc, err := goquery.NewDocumentFromReader(reader)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return doc.Length()
+
+	title := doc.Find("title").First().Text()
+	fmt.Println(title)
+
+	parsedTitle, err := parseTitle(title)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return parsedTitle
 }

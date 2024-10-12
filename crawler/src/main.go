@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 )
@@ -12,6 +11,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	length := parse(f)
-	fmt.Println(length)
+	parse(f)
 }
