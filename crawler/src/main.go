@@ -1,16 +1,17 @@
 package main
 
-import "fmt"
-
-type ParseResult struct {
-	length int
-}
-
-func parse(contents string) (result ParseResult) {
-	result.length = len(contents)
-	return
-}
+import (
+	"fmt"
+	"log"
+	"os"
+)
 
 func main() {
-	fmt.Println("Hello, world!")
+	f, err := os.Open("examples/shima.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	length := parse(f)
+	fmt.Println(length)
 }
