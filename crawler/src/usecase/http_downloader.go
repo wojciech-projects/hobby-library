@@ -9,7 +9,7 @@ import (
 type HttpMangaDownloader struct{}
 
 func (d *HttpMangaDownloader) DownloadMangaByUuid(uuid string) (series domain.Series, err error) {
-	url := "https://www.amazon.co.jp/kindle-dbs/product" + uuid
+	url := "https://www.amazon.co.jp/-/en/kindle-dbs/product/" + uuid
 
 	resp, err := http.Get(url)
 	if err != nil {
