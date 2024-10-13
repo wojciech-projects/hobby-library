@@ -16,13 +16,13 @@ func TestParsing(t *testing.T) {
 		assertTitle(t, want, got)
 	})
 
-	// t.Run("uchuu kyoudai", func(t *testing.T) {
-	// 	dat, err := os.Open("examples/uchuu_kyoudai.html")
-	// 	Check(err)
+	t.Run("uchuu kyoudai", func(t *testing.T) {
+		dat, err := os.Open("examples/uchuu_kyoudai.html")
+		Check(err)
 
-	// 	got := parse(dat)
-	// 	want := Title{title: "宇宙兄弟", volumeCount: 5}
+		got := parse(dat)
+		want := Title{title: "宇宙兄弟", volumeCount: 44}
 
-	// 	assertTitle(t, want, got)
-	// })
+		assertTitle(t, want, got)
+	})
 }
