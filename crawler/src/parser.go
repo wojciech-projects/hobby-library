@@ -21,7 +21,7 @@ func parse(reader io.Reader) Title {
 	title := doc.Find("title").First().Text()
 	fmt.Println(title)
 
-	parsedTitle, err := parseTitle(title)
+	parsedTitle, err := extractTitle(title)
 	if err != nil {
 		log.Fatal(err)
 	}

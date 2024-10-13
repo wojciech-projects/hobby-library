@@ -11,7 +11,7 @@ type Title struct {
 	volumeCount int
 }
 
-func parseTitle(title string) (parsedTitle Title, err error) {
+func extractTitle(title string) (parsedTitle Title, err error) {
 	regex := *regexp.MustCompile(`(.+) \((\d+) book series\).*`)
 	results := regex.FindStringSubmatch(title)
 	if len(results) < 3 {
@@ -27,7 +27,7 @@ func parseTitle(title string) (parsedTitle Title, err error) {
 	return
 }
 
-func parseVolumeCount(text string) (volumeCount int, err error) {
+func extractVolumeCount(text string) (volumeCount int, err error) {
 	regex := *regexp.MustCompile(`\s*(\d+) Volumes.+`)
 	results := regex.FindStringSubmatch(text)
 	if len(results) < 2 {

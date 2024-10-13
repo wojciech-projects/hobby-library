@@ -17,9 +17,9 @@ func assertTitle(t testing.TB, want, got Title) {
 	}
 }
 
-func TestTitleParser(t *testing.T) {
+func Test_extractTitle(t *testing.T) {
 	t.Run("empty string returns error", func(t *testing.T) {
-		_, err := parseTitle("")
+		_, err := extractTitle("")
 
 		got := err.Error()
 		want := errors.New("title parse error").Error()
@@ -30,7 +30,7 @@ func TestTitleParser(t *testing.T) {
 	})
 
 	t.Run("title without count returns error", func(t *testing.T) {
-		_, err := parseTitle("社外取締役　島耕作 Kindle Edition")
+		_, err := extractTitle("社外取締役　島耕作 Kindle Edition")
 
 		got := err.Error()
 		want := errors.New("title parse error").Error()
@@ -41,7 +41,7 @@ func TestTitleParser(t *testing.T) {
 	})
 
 	t.Run("title with count can be parsed", func(t *testing.T) {
-		got, err := parseTitle("社外取締役　島耕作 (5 book series) Kindle Edition")
+		got, err := extractTitle("社外取締役　島耕作 (5 book series) Kindle Edition")
 
 		want := Title{title: "社外取締役　島耕作", volumeCount: 5}
 
@@ -53,9 +53,9 @@ func TestTitleParser(t *testing.T) {
 	})
 }
 
-func TestVolumeCountParser(t *testing.T) {
+func Test_extractVolumeCount(t *testing.T) {
 	t.Run("empty string returns error", func(t *testing.T) {
-		_, err := parseVolumeCount("")
+		_, err := extractVolumeCount("")
 
 		got := err.Error()
 		want := errors.New("volume parse error").Error()
@@ -66,7 +66,7 @@ func TestVolumeCountParser(t *testing.T) {
 	})
 
 	t.Run("volume count can be parsed", func(t *testing.T) {
-		got, err := parseVolumeCount("            44 Volumes | 1 Episode")
+		got, err := extractVolumeCount("            44 Volumes | 1 Episode")
 		want := 44
 
 		if err != nil {
