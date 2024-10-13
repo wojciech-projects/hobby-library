@@ -1,4 +1,4 @@
-package main
+package parser
 
 import (
 	"crawler/src/domain"
@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func parse(reader io.Reader) (series domain.Series, err error) {
+func Parse(reader io.Reader) (series domain.Series, err error) {
 	doc, err := goquery.NewDocumentFromReader(reader)
 
 	if err != nil {

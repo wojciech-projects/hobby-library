@@ -1,15 +1,17 @@
 package main
 
 import (
+	"crawler/src/usecase"
 	"log"
-	"os"
 )
 
 func main() {
-	f, err := os.Open("examples/shima.html")
+	favorites := []string{}
+	repo := usecase.DummyAbstractRepository{}
+	downloader := usecase.HttpMangaDownloader{}
+	_, err := usecase.MangaCheckLatestUsecase(favorites, &repo, &downloader)
+
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	parse(f)
 }

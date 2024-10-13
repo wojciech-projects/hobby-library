@@ -1,4 +1,4 @@
-package main
+package parser
 
 func Check(e error) {
 	if e != nil {

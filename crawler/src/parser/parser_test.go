@@ -1,4 +1,4 @@
-package main
+package parser
 
 import (
 	"crawler/src/domain"
@@ -11,12 +11,12 @@ func TestParsing(t *testing.T) {
 		dat, err := os.Open("examples/shima.html")
 		Check(err)
 
-		got, _ := parse(dat)
+		got, _ := Parse(dat)
 		want := domain.Series{
 			Title:         "社外取締役　島耕作",
 			VolumeCount:   5,
 			ThumbnailUrl:  "https://m.media-amazon.com/images/I/B1f12VWkmIL._SY300_.png",
-			RelatedSeries: make([]domain.Uuid, 60),
+			RelatedSeries: make([]string, 60),
 		}
 
 		assertSeries(t, want, got)
@@ -25,12 +25,12 @@ func TestParsing(t *testing.T) {
 		dat, err := os.Open("examples/uchuu_kyoudai.html")
 		Check(err)
 
-		got, _ := parse(dat)
+		got, _ := Parse(dat)
 		want := domain.Series{
 			Title:         "宇宙兄弟",
 			VolumeCount:   44,
 			ThumbnailUrl:  "https://m.media-amazon.com/images/I/612Z9SegTKL._SY300_.jpg",
-			RelatedSeries: make([]domain.Uuid, 60),
+			RelatedSeries: make([]string, 60),
 		}
 
 		assertSeries(t, want, got)

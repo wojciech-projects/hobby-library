@@ -5,12 +5,10 @@ import (
 )
 
 func MangaCheckLatestUsecase(
+	favoriteMangaUuids []string,
 	repository domain.MangaRepository,
-	favorites domain.FavoritesRepository,
 	downloader domain.MangaDownloader,
-) (resultEvents []domain.MangaUpdatedEvent, err error) {
-	favoriteMangaUuids := favorites.FetchFavoriteMangas()
-
+) (resultEvents []domain.MangaEvent, err error) {
 	for _, uuid := range favoriteMangaUuids {
 		series, downloadErr := downloader.DownloadMangaByUuid(uuid)
 

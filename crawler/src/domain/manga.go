@@ -1,36 +1,35 @@
 package domain
 
-type Uuid string
-
 type Manga struct {
 	Title        string
 	VolumeCount  int
-	AmazonUuid   Uuid
+	AmazonUuid   string
 	ThumbnailUrl string
 }
 
-type MangaUpdatedEvent struct {
+type MangaEvent struct {
+	Tag          string // "new" | "updated"
 	Title        string
 	NewestVolume int
 }
 
 type MangaRepository interface {
-	AddManga(manga Manga) (events []MangaUpdatedEvent)
-	FetchMangaByUuid(uuid Uuid) (manga Manga, ok bool)
+	AddManga(manga Manga) (events []MangaEvent)
+	FetchMangaByUuid(uuid string) (manga Manga, ok bool)
 }
 
 type FavoritesRepository interface {
-	FetchFavoriteMangas() (uuids []Uuid)
+	FetchFavoriteMangas() (uuids []string)
 }
 
 type Series struct {
 	Title         string
 	VolumeCount   int
 	ThumbnailUrl  string
-	RelatedSeries []Uuid
+	RelatedSeries []string
 }
 
-func (series *Series) ToManga(uuid Uuid) (manga Manga) {
+func (series *Series) ToManga(uuid string) (manga Manga) {
 	manga.Title = series.Title
 	manga.AmazonUuid = uuid
 	manga.VolumeCount = series.VolumeCount
@@ -39,5 +38,5 @@ func (series *Series) ToManga(uuid Uuid) (manga Manga) {
 }
 
 type MangaDownloader interface {
-	DownloadMangaByUuid(uuid Uuid) (series Series, err error)
+	DownloadMangaByUuid(uuid string) (series Series, err error)
 }
