@@ -1,21 +1,13 @@
 package main
 
 import (
+	"crawler/src/domain"
 	"io"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
-type Uuid string
-
-type Series struct {
-	title         string
-	volumeCount   int
-	thumbnailUrl  string
-	relatedSeries []Uuid
-}
-
-func parse(reader io.Reader) (series Series, err error) {
+func parse(reader io.Reader) (series domain.Series, err error) {
 	doc, err := goquery.NewDocumentFromReader(reader)
 
 	if err != nil {
@@ -40,10 +32,10 @@ func parse(reader io.Reader) (series Series, err error) {
 		return
 	}
 
-	series.title = header.title
-	series.volumeCount = header.volumeCount
-	series.thumbnailUrl = thumbnailUrl
-	series.relatedSeries = relatedUuids
+	series.Title = header.title
+	series.VolumeCount = header.volumeCount
+	series.ThumbnailUrl = thumbnailUrl
+	series.RelatedSeries = relatedUuids
 
 	return series, nil
 }

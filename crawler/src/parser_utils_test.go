@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crawler/src/domain"
 	"errors"
 	"testing"
 )
@@ -95,7 +96,7 @@ func Test_extractRelatedSeriesUuid(t *testing.T) {
 		url, _ := extractRelatedSeriesUuid("/-/en/gp/product/B0DCNJBGRK?storeType=ebooks&pf_rd_p=9fae87bb-9d76-490d-8d2a-11a951a3f26a&pd_rd_wg=HEgwh&pd_rd_i=B0DCNJBGRK&ref_=dbs_m_mng_rwt_wigo_mng_s_r1_kmw_16&pd_rd_w=ghvyu&content-id=amzn1.sym.9fae87bb-9d76-490d-8d2a-11a951a3f26a&pd_rd_r=0c414179-ad50-4a4a-b989-c6bd5b207189")
 
 		got := url
-		want := Uuid("B0DCNJBGRK")
+		want := domain.Uuid("B0DCNJBGRK")
 
 		if got != want {
 			t.Errorf("got %q want %q\n", got, want)

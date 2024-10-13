@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crawler/src/domain"
 	"errors"
 	"regexp"
 	"strconv"
@@ -92,7 +93,7 @@ func parseThumbnail(doc *goquery.Document) (thumbnailUrl string, err error) {
 	return
 }
 
-func extractRelatedSeriesUuid(text string) (uuid Uuid, err error) {
+func extractRelatedSeriesUuid(text string) (uuid domain.Uuid, err error) {
 	// URL pattern = `/-/en/gp/product/B0DCNJBGRK?storeType...``
 	regex := *regexp.MustCompile(`/-/en/gp/product/([A-Z0-9]+)\?`)
 	results := regex.FindStringSubmatch(text)
@@ -100,12 +101,12 @@ func extractRelatedSeriesUuid(text string) (uuid Uuid, err error) {
 		return uuid, errors.New("extract related series parse error")
 	}
 
-	uuid = Uuid(results[1])
+	uuid = domain.Uuid(results[1])
 
 	return uuid, nil
 }
 
-func parseRelatedSeriesUuids(doc *goquery.Document) (uuids []Uuid, err error) {
+func parseRelatedSeriesUuids(doc *goquery.Document) (uuids []domain.Uuid, err error) {
 	var lastErr error
 
 	doc.Find(".series-product-image-container .a-link-normal").Each(func(i int, s *goquery.Selection) {

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crawler/src/domain"
 	"os"
 	"testing"
 )
@@ -11,11 +12,11 @@ func TestParsing(t *testing.T) {
 		Check(err)
 
 		got, _ := parse(dat)
-		want := Series{
-			title:         "社外取締役　島耕作",
-			volumeCount:   5,
-			thumbnailUrl:  "https://m.media-amazon.com/images/I/B1f12VWkmIL._SY300_.png",
-			relatedSeries: make([]Uuid, 60),
+		want := domain.Series{
+			Title:         "社外取締役　島耕作",
+			VolumeCount:   5,
+			ThumbnailUrl:  "https://m.media-amazon.com/images/I/B1f12VWkmIL._SY300_.png",
+			RelatedSeries: make([]domain.Uuid, 60),
 		}
 
 		assertSeries(t, want, got)
@@ -25,33 +26,33 @@ func TestParsing(t *testing.T) {
 		Check(err)
 
 		got, _ := parse(dat)
-		want := Series{
-			title:         "宇宙兄弟",
-			volumeCount:   44,
-			thumbnailUrl:  "https://m.media-amazon.com/images/I/612Z9SegTKL._SY300_.jpg",
-			relatedSeries: make([]Uuid, 60),
+		want := domain.Series{
+			Title:         "宇宙兄弟",
+			VolumeCount:   44,
+			ThumbnailUrl:  "https://m.media-amazon.com/images/I/612Z9SegTKL._SY300_.jpg",
+			RelatedSeries: make([]domain.Uuid, 60),
 		}
 
 		assertSeries(t, want, got)
 	})
 }
 
-func assertSeries(t testing.TB, want, got Series) {
+func assertSeries(t testing.TB, want, got domain.Series) {
 	t.Helper()
 
-	if got.title != want.title {
-		t.Errorf("got %q want %q\n", got.title, want.title)
+	if got.Title != want.Title {
+		t.Errorf("got %q want %q\n", got.Title, want.Title)
 	}
 
-	if got.volumeCount != want.volumeCount {
-		t.Errorf("got %d want %d\n", got.volumeCount, want.volumeCount)
+	if got.VolumeCount != want.VolumeCount {
+		t.Errorf("got %d want %d\n", got.VolumeCount, want.VolumeCount)
 	}
 
-	if got.thumbnailUrl != want.thumbnailUrl {
-		t.Errorf("got %q want %q\n", got.thumbnailUrl, want.thumbnailUrl)
+	if got.ThumbnailUrl != want.ThumbnailUrl {
+		t.Errorf("got %q want %q\n", got.ThumbnailUrl, want.ThumbnailUrl)
 	}
 
-	if len(got.relatedSeries) != len(want.relatedSeries) {
-		t.Errorf("got %d want %d\n", len(got.relatedSeries), len(want.relatedSeries))
+	if len(got.RelatedSeries) != len(want.RelatedSeries) {
+		t.Errorf("got %d want %d\n", len(got.RelatedSeries), len(want.RelatedSeries))
 	}
 }
