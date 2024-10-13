@@ -7,10 +7,13 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+type Uuid string
+
 type Series struct {
-	title        string
-	volumeCount  int
-	thumbnailUrl string
+	title         string
+	volumeCount   int
+	thumbnailUrl  string
+	relatedSeries []Uuid
 }
 
 func parse(reader io.Reader) (series Series) {
@@ -32,9 +35,16 @@ func parse(reader io.Reader) (series Series) {
 		log.Fatal(err)
 	}
 
+	relatedUuids, err := parseRelatedSeriesUuids(doc)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	series.title = header.title
 	series.volumeCount = header.volumeCount
 	series.thumbnailUrl = thumbnailUrl
+	series.relatedSeries = relatedUuids
 
 	return series
 }

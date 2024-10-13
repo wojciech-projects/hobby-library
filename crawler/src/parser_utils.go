@@ -91,3 +91,36 @@ func parseThumbnail(doc *goquery.Document) (thumbnailUrl string, err error) {
 
 	return
 }
+
+func extractRelatedSeriesUuid(text string) (uuid Uuid, err error) {
+	// URL pattern = `/-/en/gp/product/B0DCNJBGRK?storeType...``
+	regex := *regexp.MustCompile(`/-/en/gp/product/([A-Z0-9]+)\?`)
+	results := regex.FindStringSubmatch(text)
+	if len(results) < 2 {
+		return uuid, errors.New("extract related series parse error")
+	}
+
+	uuid = Uuid(results[1])
+
+	return uuid, nil
+}
+
+func parseRelatedSeriesUuids(doc *goquery.Document) (uuids []Uuid, err error) {
+	var lastErr error
+
+	doc.Find(".series-product-image-container .a-link-normal").Each(func(i int, s *goquery.Selection) {
+		url, _ := s.Attr("href")
+		uuid, err := extractRelatedSeriesUuid(url)
+
+		if err != nil {
+			lastErr = err
+		}
+		uuids = append(uuids, uuid)
+	})
+
+	if lastErr != nil {
+		return uuids, lastErr
+	}
+
+	return
+}

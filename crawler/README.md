@@ -8,7 +8,9 @@ https://www.amazon.co.jp/dp/B0C493GKLX?binding=kindle_edition&qid=1728710161&sr=
 
 # TODO NEXT
 
-[x] Find a parsing library for go and try it on the example page
-[ ] Try to parse related titles?
-[ ] Extract thumbnails URLs
+[x] Find a parsing library for go and try it on the example pag
+[x] parse related series UUIDs
+[x] Extract thumbnails URLs
 [ ] Make a list of mangas I want to parse
+[ ] Implement the crawler loop
+[ ] Find a way to save data
