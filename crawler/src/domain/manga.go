@@ -7,7 +7,6 @@ type Manga struct {
 	VolumeCount  int
 	AmazonUuid   Uuid
 	ThumbnailUrl string
-	IsFavorite   bool
 }
 
 type MangaUpdatedEvent struct {
@@ -17,7 +16,11 @@ type MangaUpdatedEvent struct {
 
 type MangaRepository interface {
 	AddManga(manga Manga) (events []MangaUpdatedEvent)
-	FetchFavoriteMangas() (mangas []Manga)
+	FetchMangaByUuid(uuid Uuid) (manga Manga, ok bool)
+}
+
+type FavoritesRepository interface {
+	FetchFavoriteMangas() (uuids []Uuid)
 }
 
 type Series struct {
@@ -27,6 +30,14 @@ type Series struct {
 	RelatedSeries []Uuid
 }
 
+func (series *Series) ToManga(uuid Uuid) (manga Manga) {
+	manga.Title = series.Title
+	manga.AmazonUuid = uuid
+	manga.VolumeCount = series.VolumeCount
+	manga.ThumbnailUrl = series.ThumbnailUrl
+	return
+}
+
 type MangaDownloader interface {
-	fetchMangaByUuid(uuid Uuid) (series Series, err error)
+	DownloadMangaByUuid(uuid Uuid) (series Series, err error)
 }
