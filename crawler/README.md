@@ -8,4 +8,7 @@ https://www.amazon.co.jp/dp/B0C493GKLX?binding=kindle_edition&qid=1728710161&sr=
 
 # TODO NEXT
 
-[] Find a parsing library for go and try it on the example page
+[x] Find a parsing library for go and try it on the example page
+[ ] Try to parse related titles?
+[ ] Extract thumbnails URLs
+[ ] Make a list of mangas I want to parse

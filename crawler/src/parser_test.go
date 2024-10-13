@@ -11,9 +11,9 @@ func TestParsing(t *testing.T) {
 		Check(err)
 
 		got := parse(dat)
-		want := Header{title: "社外取締役　島耕作", volumeCount: 5}
+		want := Series{title: "社外取締役　島耕作", volumeCount: 5}
 
-		assertTitle(t, want, got)
+		assertSeries(t, want, got)
 	})
 
 	t.Run("uchuu kyoudai", func(t *testing.T) {
@@ -21,8 +21,22 @@ func TestParsing(t *testing.T) {
 		Check(err)
 
 		got := parse(dat)
-		want := Header{title: "宇宙兄弟", volumeCount: 44}
+		want := Series{title: "宇宙兄弟", volumeCount: 44}
 
-		assertTitle(t, want, got)
+		assertSeries(t, want, got)
 	})
+}
+
+func assertSeries(t testing.TB, want, got Series) {
+	t.Helper()
+
+	if got.title != want.title {
+		t.Errorf("got %q want %q\n", got.title, want.title)
+	}
+
+	if got.volumeCount != want.volumeCount {
+		t.Errorf("got %d want %d\n", got.volumeCount, want.volumeCount)
+	}
+
+	// TODO: assert thumnails
 }

@@ -7,18 +7,27 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func parse(reader io.Reader) (header Header) {
+type Series struct {
+	title        string
+	volumeCount  int
+	thumbnailUrl string
+}
+
+func parse(reader io.Reader) (series Series) {
 	doc, err := goquery.NewDocumentFromReader(reader)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	header, err = parseHeader(doc)
+	header, err := parseHeader(doc)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return header
+	series.title = header.title
+	series.volumeCount = header.volumeCount
+
+	return series
 }
