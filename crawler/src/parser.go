@@ -2,7 +2,6 @@ package main
 
 import (
 	"io"
-	"log"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -16,29 +15,29 @@ type Series struct {
 	relatedSeries []Uuid
 }
 
-func parse(reader io.Reader) (series Series) {
+func parse(reader io.Reader) (series Series, err error) {
 	doc, err := goquery.NewDocumentFromReader(reader)
 
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
 	header, err := parseHeader(doc)
 
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
 	thumbnailUrl, err := parseThumbnail(doc)
 
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
 	relatedUuids, err := parseRelatedSeriesUuids(doc)
 
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
 	series.title = header.title
@@ -46,5 +45,5 @@ func parse(reader io.Reader) (series Series) {
 	series.thumbnailUrl = thumbnailUrl
 	series.relatedSeries = relatedUuids
 
-	return series
+	return series, nil
 }

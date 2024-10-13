@@ -10,7 +10,7 @@ func TestParsing(t *testing.T) {
 		dat, err := os.Open("examples/shima.html")
 		Check(err)
 
-		got := parse(dat)
+		got, _ := parse(dat)
 		want := Series{
 			title:         "社外取締役　島耕作",
 			volumeCount:   5,
@@ -24,7 +24,7 @@ func TestParsing(t *testing.T) {
 		dat, err := os.Open("examples/uchuu_kyoudai.html")
 		Check(err)
 
-		got := parse(dat)
+		got, _ := parse(dat)
 		want := Series{
 			title:         "宇宙兄弟",
 			volumeCount:   44,
