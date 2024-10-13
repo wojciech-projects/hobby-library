@@ -81,3 +81,13 @@ func parseHeader(doc *goquery.Document) (header Header, err error) {
 		return parseHeaderType1(doc)
 	}
 }
+
+func parseThumbnail(doc *goquery.Document) (thumbnailUrl string, err error) {
+	thumbnailUrl, exists := doc.Find("#seriesImageBlock").First().Attr("src")
+
+	if !exists {
+		return "", errors.New("url not found")
+	}
+
+	return
+}

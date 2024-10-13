@@ -26,8 +26,15 @@ func parse(reader io.Reader) (series Series) {
 		log.Fatal(err)
 	}
 
+	thumbnailUrl, err := parseThumbnail(doc)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	series.title = header.title
 	series.volumeCount = header.volumeCount
+	series.thumbnailUrl = thumbnailUrl
 
 	return series
 }
