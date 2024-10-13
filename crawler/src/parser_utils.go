@@ -4,25 +4,27 @@ import (
 	"errors"
 	"regexp"
 	"strconv"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
-type Title struct {
+type Header struct {
 	title       string
 	volumeCount int
 }
 
-func extractTitle(title string) (parsedTitle Title, err error) {
+func extractTitle(title string) (header Header, err error) {
 	regex := *regexp.MustCompile(`(.+) \((\d+) book series\).*`)
 	results := regex.FindStringSubmatch(title)
 	if len(results) < 3 {
-		return parsedTitle, errors.New("title parse error")
+		return header, errors.New("title parse error")
 	}
 
-	parsedTitle.title = results[1]
-	parsedTitle.volumeCount, err = strconv.Atoi(results[2])
+	header.title = results[1]
+	header.volumeCount, err = strconv.Atoi(results[2])
 
 	if err != nil {
-		return parsedTitle, errors.New("title parse error")
+		return header, errors.New("title parse error")
 	}
 	return
 }
@@ -40,4 +42,42 @@ func extractVolumeCount(text string) (volumeCount int, err error) {
 		return volumeCount, errors.New("title parse error")
 	}
 	return
+}
+
+func isHeaderType2(doc *goquery.Document) bool {
+	return doc.Find("#collection-masthead__size").Length() == 1
+}
+
+func parseHeaderType1(doc *goquery.Document) (header Header, err error) {
+	title := doc.Find("title").First().Text()
+
+	return extractTitle(title)
+}
+
+func parseHeaderType2(doc *goquery.Document) (header Header, err error) {
+	volumeCountText := doc.Find("#collection-masthead__size").First().Text()
+	volumeCount, err := extractVolumeCount(volumeCountText)
+
+	if err != nil {
+		return header, err
+	}
+
+	parsedTitle, err := parseHeaderType1(doc)
+
+	if err != nil {
+		return header, err
+	}
+
+	header.title = parsedTitle.title
+	header.volumeCount = volumeCount
+
+	return
+}
+
+func parseHeader(doc *goquery.Document) (header Header, err error) {
+	if isHeaderType2(doc) {
+		return parseHeaderType2(doc)
+	} else {
+		return parseHeaderType1(doc)
+	}
 }

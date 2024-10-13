@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func assertTitle(t testing.TB, want, got Title) {
+func assertTitle(t testing.TB, want, got Header) {
 	t.Helper()
 
 	if got.title != want.title {
@@ -43,7 +43,7 @@ func Test_extractTitle(t *testing.T) {
 	t.Run("title with count can be parsed", func(t *testing.T) {
 		got, err := extractTitle("社外取締役　島耕作 (5 book series) Kindle Edition")
 
-		want := Title{title: "社外取締役　島耕作", volumeCount: 5}
+		want := Header{title: "社外取締役　島耕作", volumeCount: 5}
 
 		if err != nil {
 			t.Errorf("got unexpected error %q\n", err)

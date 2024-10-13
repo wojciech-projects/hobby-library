@@ -11,7 +11,7 @@ func TestParsing(t *testing.T) {
 		Check(err)
 
 		got := parse(dat)
-		want := Title{title: "社外取締役　島耕作", volumeCount: 5}
+		want := Header{title: "社外取締役　島耕作", volumeCount: 5}
 
 		assertTitle(t, want, got)
 	})
@@ -21,7 +21,7 @@ func TestParsing(t *testing.T) {
 		Check(err)
 
 		got := parse(dat)
-		want := Title{title: "宇宙兄弟", volumeCount: 44}
+		want := Header{title: "宇宙兄弟", volumeCount: 44}
 
 		assertTitle(t, want, got)
 	})
