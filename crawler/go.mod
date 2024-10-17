@@ -1,4 +1,4 @@
-module crawler
+module manga_checker
 
 go 1.23.2
 
